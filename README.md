@@ -40,7 +40,6 @@ d.Association Rule Learning
 
 1> Apriori.
 
-2> Eclat.
 
 
 e.Natural Language Processing
