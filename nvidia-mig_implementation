@@ -1,0 +1,32 @@
+Implementation Details
+Step 1: Enable MIG Mode
+Activate MIG mode on your A100 GPU:
+
+bash
+Copy code
+sudo nvidia-smi -i 0 -mig 1
+Step 2: Create MIG Instances
+Divide the GPU into four instances (e.g., each with 20 GB of memory):
+
+bash
+Copy code
+sudo nvidia-smi mig -cgi 19,19,19,19 -C
+(The profile number 19 corresponds to an instance configuration; adjust as needed.)
+
+Step 3: Verify MIG Instances
+Check the created instances:
+
+bash
+Copy code
+nvidia-smi -L
+Step 4: Assign APIs to MIG Instances
+When starting each API service, specify which MIG instance it should use:
+
+bash
+Copy code
+CUDA_VISIBLE_DEVICES=MIG-GPU-xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx-0 python api_service_1.py
+CUDA_VISIBLE_DEVICES=MIG-GPU-xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx-1 python api_service_2.py
+CUDA_VISIBLE_DEVICES=MIG-GPU-xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx-2 python api_service_3.py
+CUDA_VISIBLE_DEVICES=MIG-GPU-xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx-3 python api_service_4.py
+(Replace MIG-GPU-xxxxxxxx-... with the actual MIG device IDs from nvidia-smi -L output.)
+
